@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import "./styles.scss";
-import Header from "./Header.js"
+import Header from "./Header.js";
+import Empty from "./Empty.js";
+import Show from "./Show.js";
 
-export default function Appointment () {
+export default function Appointment (props) {
   return (
-    <>
-    <article className="appointment"></article>
-    <Header 
+    <article className="appointment">
+    <Header time={props.time}/>
     
-    />
-    </>
+   
+    {props.interview ? <Show name={props.interview.student} interviewer={props.interview.interviewer} /> : < Empty />}   
+    </article>
   )};
 
-
+  // Remember that our <Show /> component takes in two props: a student and an interviewer.
 // Update the Appointment component in index.js according to the following:
 
 // All Appointment components will render a Header that takes in a time prop.

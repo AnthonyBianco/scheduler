@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
-
+import Appointment from "components/Appointment/index.js";
 
 const days = [
   {
@@ -22,8 +22,72 @@ const days = [
   },
 ];
 
+const appointments = [
+  {
+    id: 1,
+    time: "1pm",
+  },
+  {
+    id: 2,
+    time: "2pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "3pm",
+  },
+  {
+    id: 4,
+    time: "4pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 5,
+    time: "5pm",
+  },
+  {
+    id: 6,
+    time: "6pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+];
+
+
 export default function Application(props) {
-  const [day, setDay] = useState('Monday');  
+  const [day, setDay] = useState('Monday'); 
+
+  const appointment = appointments.map(appointment => {
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={appointment.interview}
+      />
+    );
+  });
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -43,19 +107,19 @@ export default function Application(props) {
       />
 
 </nav>
-
+</section>
 <img
   className="sidebar__lhl sidebar--centered"
   src="images/lhl.png"
   alt="Lighthouse Labs"
 />
-      </section>
-    </main>
-    
-  );
 
-  
+<section className="schedule">{appointment}</section>
+    </main>
+  );
 }
+    
+
 
 // function Application(props) {
 //   return (
