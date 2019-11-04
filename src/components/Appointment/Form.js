@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 import InterviewerList from "components/InterviewerList";
 import Button from "../Button";
 
-
-// Update the Form component to add the name and interviewer to state using setName and setInterviewer.
-
-// Add a reset() function to the Form component that calls setName("") and setInterviewer(null).
-
 export default function Form (props) {
 const [name, setName] = useState(props.name || "");
 const [interviewer, setInterviewer] = useState(props.interviewer || null);
@@ -20,7 +15,6 @@ const cancel = function(){
   reset();
   props.onCancel();
 }
-
 
   return (
 
@@ -39,9 +33,11 @@ const cancel = function(){
     </form>
 
     
-    <InterviewerList interviewers={props.interviewers} 
-    value={interviewer} 
-    onChange={setInterviewer} />
+    <InterviewerList 
+    interviewers={props.interviewers} 
+    interviewer={interviewer} 
+    setInterviewer = {setInterviewer}
+    />
   
   </section>
   <section className="appointment__card-right">
