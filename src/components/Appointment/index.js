@@ -10,6 +10,8 @@ import { format } from 'util';
 import { irBlack } from 'react-syntax-highlighter/dist/styles/hljs';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
+
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -18,28 +20,30 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
-
-// In the Appointment component update the save action to show the SAVING indicator before calling props.bookInterview.
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 
 export default function Appointment (props) {
 
-const { mode, transition, back } = useVisualMode(
-  props.interview ? SHOW : EMPTY
-);
 
-function save(name, interviewer) {
-  const interview = {
-    student: name,
-    interviewer,
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer,
+    }
+    // SAVING indicator
+    transition(SAVING);
+    props
+    .bookInterview(props.id, interview)
+    .then(() => transition(SHOW))
+    .catch(error => transition(ERROR_SAVE));
   }
-  // SAVING indicator
-  transition(SAVING);
-  props.bookInterview(props.id, interview)
-  .then(() => {
-    transition(SHOW);
-    });
-  }
+  
 
   function cancelInterview (name, interviewer) {
     const interview = {
@@ -50,15 +54,12 @@ function save(name, interviewer) {
     props.cancelInterview(props.id, interview)
     .then(() => {
       transition(EMPTY);
-    });
+    })
+      .catch(error => transition(ERROR_DELETE, true));
   }
 
   function cancel(){
-    if (props.interview){
-      return transition(SHOW);
-    } else {
-      return transition(EMPTY);
-    }
+    back();
   }
 
   function confirm(){
@@ -68,6 +69,7 @@ function save(name, interviewer) {
   function onEdit(){
     transition(EDIT);
   }
+
 
   return (
 
@@ -79,9 +81,12 @@ function save(name, interviewer) {
     {mode === SAVING && <Status message={"Saving"}/>}
     {mode === DELETING && <Status message={"Deleting"}/>}
     {mode === CONFIRM && (<Confirm onCancel = {cancel} onConfirm = {cancelInterview}/>)}
-   
-    {mode === EDIT && (<Form name={props.interview.student} interviewers={props.interviewers} onCancel = {back} onSave = {save}/>)}
     
+    {mode === EDIT && (<Form name={props.interview.student} interviewers={props.interviewers} onCancel = {back} onSave = {save}/>)}
+
+    {mode === ERROR_SAVE && <Error  onClose = {back} message={"Could not save"}/>}
+    {mode === ERROR_DELETE && <Error onClose = {back} message={"Could not delete"}/>}
+
     {mode === SHOW && (
     <Show
     student={props.interview.student}

@@ -5,16 +5,19 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
-  function transition(modeX, replace = false) { 
-    // this adds a new mode with the spread operator
-    if(!replace) {
-    setHistory( prev =>([...prev, mode]));
+  function transition(newMode, replace = false) { 
+
+    setMode(newMode);
+    if (!replace) {
+      setHistory([...history, newMode]);
+    } else {
+      setHistory([...history.slice(0, -1), newMode]);
     }
-    setMode(modeX);
   }
+
   function back() {
-    if(history.length > 0){
-      setMode(history[history.length - 1])
+    if(history.length > 1){
+      setMode(history[history.length - 2])
       setHistory(prev => [...prev.slice(0, -1)]); 
     }
   }
