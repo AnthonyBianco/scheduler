@@ -1,5 +1,7 @@
 # Interview Scheduler
 
+This project allows someone to book an appointment for an interview with a specific person Mon-Fri. 
+
 ## Screenshots
 
 ![This is the main page](https://github.com/AnthonyBianco/scheduler/blob/master/public/images/InterviewScheduler.png?raw=true"Homepage")
@@ -29,10 +31,16 @@ npm run storybook
 ```
 ## Dependencies
 
-"dependencies": {
-    "axios": "^0.19.0",
-    "classnames": "^2.2.6",
-    "normalize.css": "^8.0.1",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-scripts": "3.0.0"
+  -axios
+  -classnames
+  -normalize.css
+  -react
+  -react-dom
+  -react-scripts
+  -jest
+  -cypress
+
+  ## Setup
+
+  Fork: 
+  https://github.com/AnthonyBianco/scheduler-api
