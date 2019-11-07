@@ -30,15 +30,14 @@ npm test
 npm run storybook
 ```
 ## Dependencies
-
-  -axios
-  -classnames
-  -normalize.css
-  -react
-  -react-dom
-  -react-scripts
-  -jest
-  -cypress
+- axios 
+- classnames
+- normalize.css
+- react
+- react-dom
+- react-scripts
+- jest
+- cypress
 
   ## Setup
 
