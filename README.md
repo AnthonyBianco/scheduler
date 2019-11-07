@@ -2,8 +2,9 @@
 
 ## Screenshots
 
-![Alt text](/relative/path/to/img.jpg?raw=true "Homepage")
-![Alt text](/relative/path/to/img.jpg?raw=true "Booking")
+![This is the main page](https://github.com/AnthonyBianco/scheduler/blob/master/public/images/InterviewScheduler.png?raw=true"Homepage")
+
+![This is a picture of booking an Interview](https://github.com/AnthonyBianco/scheduler/blob/master/public/images/Booking.png?raw=true "Booking")
 
 ## Setup
 
