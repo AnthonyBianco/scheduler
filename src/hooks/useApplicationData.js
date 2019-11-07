@@ -8,10 +8,12 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../c
 
 export default function useApplicationData(props) {
 
-
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
+  const INCREMENT_SPOTS = "INCREMENT_SPOTS";
+  const DECREMENT_SPOTS = "DECREMENT_SPOTS";
+
   
   function reducer(state, action) {
     switch (action.type) {
@@ -42,6 +44,39 @@ export default function useApplicationData(props) {
 
         return { ...state, appointments };
       }
+
+      case INCREMENT_SPOTS: {
+        const dayId = action.payload.dayId;
+
+        console.log(dayId)
+
+        const days = state.days.map((day) => {
+          if (day.id === dayId) {
+            return { ...day, spots: day.spots - 1 };
+          }
+
+          return day;
+        });
+
+        return { ...state, days };
+      }
+
+      case DECREMENT_SPOTS: {
+        const dayId = action.payload.dayId;
+
+        console.log(dayId)
+
+        const days = state.days.map((day) => {
+          if (day.id === dayId) {
+            return { ...day, spots: day.spots + 1 };
+          }
+
+          return day;
+        });
+
+        return { ...state, days };
+      }
+
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -76,16 +111,29 @@ export default function useApplicationData(props) {
       interview: {...interview} 
     };
 
-    const appointments = {
+    const appointments = {                                    
       ...state.appointments,
       [id]: appointment
     }
+
+    const day = state.days.find((day) => day.name = state.day);
+
     return axios.delete(`api/appointments/${id}`, interview)
     .then(() => {
       delete appointments[id];
       dispatch({ type: SET_INTERVIEW, id, interview: null }); 
+      
+      if (day) {
+        dispatch({
+          type: INCREMENT_SPOTS,
+          payload: {
+            dayId: day.id
+          }
+        });
+      }
     });
 
+  
   }
 
   const bookInterview = (id, interview) => {
@@ -100,13 +148,34 @@ export default function useApplicationData(props) {
       [id]: appointment
     };
 
+    const day = state.days.find((day) => day.name = state.day);
+
     return axios.put(`api/appointments/${id}`, {interview})
     .then(() => {
       dispatch({ type: SET_INTERVIEW, id, interview });
+
+      if (day) {
+        dispatch({
+          type: INCREMENT_SPOTS,
+          payload: {
+            dayId: day.id
+          }
+        });
+      }
     });
   }
 
   const setDay = day => dispatch  ({type: SET_DAY, day });
+
+  function getSpots (state, change) {
+    const spots = state.days.map((indexDay) => {
+      if (state.day === indexDay.name){
+      return {...indexDay, spots: indexDay.spots + change}
+    }
+    return indexDay
+    })
+    return spots;
+  }
 
   return { 
     state,
