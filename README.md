@@ -1,5 +1,10 @@
 # Interview Scheduler
 
+## Screenshots
+
+![Alt text](/relative/path/to/img.jpg?raw=true "Homepage")
+![Alt text](/relative/path/to/img.jpg?raw=true "Booking")
+
 ## Setup
 
 Install dependencies with `npm install`.
@@ -21,3 +26,12 @@ npm test
 ```sh
 npm run storybook
 ```
+## Dependencies
+
+"dependencies": {
+    "axios": "^0.19.0",
+    "classnames": "^2.2.6",
+    "normalize.css": "^8.0.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "3.0.0"
